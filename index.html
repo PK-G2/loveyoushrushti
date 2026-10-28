@@ -1,0 +1,679 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>For Shrushti</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Hanken+Grotesk:wght@400;500;600&display=swap">
+<style>
+/* Layout: one centred stage over a slow field of rising hearts. Closed heart -> question -> full-screen celebration film.
+   One committed look: deep wine night, rose and blush light, a little candle gold. */
+:root {
+  --night: #1a0714;
+  --night-rgb: 26, 7, 20;
+  --wine: #4a1031;
+  --rose: #ff5c8a;
+  --hot: #d8205f;
+  --blush: #ffd3de;
+  --gold: #ffc982;
+  --ink: #fff4f6;
+  --muted: #e6b4c4;
+  --display: "Fraunces", Georgia, "Times New Roman", serif;
+  --body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  display: flex;
+  background: radial-gradient(120% 70% at 50% 0%, var(--wine) 0%, rgba(74, 16, 49, 0) 62%), var(--night);
+  background-color: var(--night);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.5;
+  padding-block: 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  overflow-x: hidden;
+}
+#bg { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+main { position: relative; z-index: 2; margin: auto; width: min(100%, 640px); text-align: center; min-width: 0; }
+section { display: flex; flex-direction: column; align-items: center; gap: 0; }
+
+.eyebrow {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.78rem;
+  line-height: 1.2;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+h1 {
+  margin: 0.35em 0 0.2em;
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2.6rem, 10vw, 5.4rem);
+  line-height: 1.02;
+  font-variation-settings: "opsz" 144;
+  text-wrap: balance;
+  color: var(--ink);
+}
+.lede { margin: 0; max-width: 30ch; font-size: 1.1rem; color: var(--muted); text-wrap: balance; }
+.question {
+  margin: 0.1em 0 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 5.4vw, 2.5rem);
+  line-height: 1.15;
+  color: var(--blush);
+  text-wrap: balance;
+}
+
+.bigheart { width: clamp(120px, 34vw, 190px); height: auto; margin-bottom: 18px; filter: drop-shadow(0 12px 34px rgba(255, 60, 120, 0.55)); animation: beat 1.5s ease-in-out infinite; }
+.smallheart { width: 54px; height: auto; margin-bottom: 14px; filter: drop-shadow(0 8px 22px rgba(255, 60, 120, 0.5)); animation: beat 1.5s ease-in-out infinite; }
+@keyframes beat { 0%, 100% { transform: scale(1); } 14% { transform: scale(1.09); } 28% { transform: scale(1); } 42% { transform: scale(1.06); } 60% { transform: scale(1); } }
+
+button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+.open-btn {
+  margin-top: 28px;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 30px;
+  border-radius: 999px;
+  background: var(--blush);
+  color: #4a0f2c;
+  font-weight: 600;
+  font-size: 1.05rem;
+  box-shadow: 0 10px 30px rgba(255, 92, 138, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.open-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(255, 92, 138, 0.5); }
+
+.pop { animation: pop 0.8s cubic-bezier(0.3, 1.5, 0.5, 1) both; }
+@keyframes pop { 0% { opacity: 0; transform: scale(0.55) translateY(24px); } 60% { opacity: 1; transform: scale(1.05); } 100% { opacity: 1; transform: none; } }
+
+.choices { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 22px; margin-top: 2.2rem; min-height: 84px; }
+.yes {
+  --s: 1;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 40px;
+  border-radius: 999px;
+  background: var(--hot);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.3rem;
+  letter-spacing: 0.02em;
+  box-shadow: 0 0 0 0 rgba(255, 92, 138, 0.6), 0 12px 34px rgba(216, 32, 95, 0.55);
+  transform: scale(var(--s));
+  transition: transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1), box-shadow 0.2s;
+  animation: ring 2.2s ease-out infinite;
+}
+.yes:hover { box-shadow: 0 0 0 6px rgba(255, 92, 138, 0.3), 0 16px 40px rgba(216, 32, 95, 0.7); }
+.yes svg { width: 22px; height: 20px; fill: #fff; }
+@keyframes ring { 0% { box-shadow: 0 0 0 0 rgba(255, 92, 138, 0.55), 0 12px 34px rgba(216, 32, 95, 0.55); } 70%, 100% { box-shadow: 0 0 0 18px rgba(255, 92, 138, 0), 0 12px 34px rgba(216, 32, 95, 0.55); } }
+
+.slot { display: inline-block; width: 104px; height: 56px; }
+.no {
+  width: 104px; height: 56px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 211, 222, 0.5);
+  color: var(--blush);
+  font-weight: 500;
+  font-size: 1.1rem;
+  touch-action: none;
+  user-select: none; -webkit-user-select: none;
+}
+.no.fly { position: fixed; left: 0; top: 0; z-index: 20; transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.15); background: rgba(var(--night-rgb), 0.85); }
+.hint { min-height: 1.6em; margin: 1.6rem 0 0; font-size: 0.98rem; color: var(--muted); }
+
+/* owner status strip */
+#owner {
+  position: fixed; z-index: 30;
+  top: calc(env(safe-area-inset-top, 0px) + 8px);
+  left: 50%; transform: translateX(-50%);
+  max-width: calc(100% - 32px);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 12px;
+  padding: 8px 16px;
+  border-radius: 14px;
+  background: rgba(var(--night-rgb), 0.92);
+  border: 1px solid rgba(255, 201, 130, 0.45);
+  font-size: 0.85rem;
+  text-align: center;
+}
+#owner b { color: var(--gold); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.72rem; }
+#owner button { text-decoration: underline; color: var(--muted); font-size: 0.82rem; }
+
+/* celebration film */
+#film { position: fixed; inset: 0; z-index: 50; background: var(--night); overflow: hidden; }
+#fx { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+#capwrap {
+  position: absolute; left: 0; right: 0;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 96px);
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+  text-align: center; pointer-events: none;
+}
+#cap {
+  margin: 0;
+  font-family: var(--display); font-style: italic; font-weight: 500;
+  font-size: clamp(2.1rem, 8vw, 4.6rem); line-height: 1.05;
+  font-variation-settings: "opsz" 144;
+  text-wrap: balance;
+  text-shadow: 0 0 28px rgba(255, 92, 138, 0.75), 0 2px 0 rgba(var(--night-rgb), 0.6);
+}
+#sub { margin: 0.6em auto 0; max-width: 34ch; font-size: 1.1rem; color: var(--blush); text-wrap: balance; text-shadow: 0 1px 10px rgba(var(--night-rgb), 0.9); }
+.cap-in { animation: capIn 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes capIn { from { opacity: 0; transform: translateY(16px) scale(0.96); } to { opacity: 1; transform: none; } }
+
+#tell {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 68px);
+  width: min(calc(100% - 32px), 420px);
+  padding: 14px 16px; border-radius: 16px;
+  background: rgba(var(--night-rgb), 0.92); border: 1px solid rgba(255, 211, 222, 0.35);
+  text-align: center; font-size: 0.95rem; color: var(--blush);
+}
+#tell button { margin-top: 8px; padding: 9px 18px; border-radius: 999px; background: var(--blush); color: #4a0f2c; font-weight: 600; }
+
+#bar {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; gap: 14px;
+  padding-top: 12px;
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: linear-gradient(to top, rgba(var(--night-rgb), 0.92), rgba(var(--night-rgb), 0));
+}
+.ctl { padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(255, 211, 222, 0.45); color: var(--blush); font-size: 0.9rem; font-weight: 500; white-space: nowrap; }
+.ctl.hot { background: var(--blush); color: #4a0f2c; border-color: var(--blush); }
+#prog { flex: 1; min-width: 40px; height: 4px; border-radius: 4px; background: rgba(255, 211, 222, 0.22); overflow: hidden; }
+#progfill { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--rose), var(--gold)); }
+#time { font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+@media (max-width: 440px) {
+  .choices { gap: 14px; }
+  .yes { padding: 15px 30px; font-size: 1.2rem; }
+  #time { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bigheart, .smallheart, .yes { animation: none; }
+  .pop, .cap-in { animation: capFade 0.4s ease both; }
+  .no.fly { transition: none; }
+  @keyframes capFade { from { opacity: 0; } to { opacity: 1; } }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff7aa2"/>
+      <stop offset="1" stop-color="#e0245e"/>
+    </linearGradient>
+    <symbol id="heart" viewBox="0 0 100 90"><path d="M50 88C20 62 3 46 3 27 3 13 14 3 27 3c9 0 18 5 23 13C55 8 64 3 73 3c13 0 24 10 24 24 0 19-17 35-47 61z"/></symbol>
+  </defs>
+</svg>
+
+<canvas id="bg" aria-hidden="true"></canvas>
+
+<aside id="owner" hidden>
+  <b>Preview</b>
+  <span id="ownerState">Waiting for her to open it. Your own taps are not recorded.</span>
+  <button id="ownerReset" type="button" hidden>Clear answer</button>
+</aside>
+
+<main>
+  <section id="sOpen">
+    <svg class="bigheart" viewBox="0 0 100 90" aria-hidden="true"><use href="#heart" fill="url(#hg)"/></svg>
+    <p class="eyebrow">Made for one person</p>
+    <h1>Shrushti,</h1>
+    <p class="lede">there is a question waiting for you inside.</p>
+    <button class="open-btn" id="openBtn" type="button">Open it
+      <svg width="18" height="16" viewBox="0 0 100 90" aria-hidden="true" fill="#d8205f"><use href="#heart"/></svg>
+    </button>
+  </section>
+
+  <section id="sAsk" hidden>
+    <svg class="smallheart" viewBox="0 0 100 90" aria-hidden="true"><use href="#heart" fill="url(#hg)"/></svg>
+    <p class="eyebrow">A question, from Prathamesh</p>
+    <h1>I love you, Shrushti.</h1>
+    <p class="question">Do you love me too?</p>
+    <div class="choices" id="choices">
+      <button class="yes" id="yesBtn" type="button">Yes
+        <svg viewBox="0 0 100 90" aria-hidden="true"><use href="#heart"/></svg>
+      </button>
+      <span class="slot" id="slot"><button class="no" id="noBtn" type="button" aria-disabled="true" tabindex="-1">No</button></span>
+    </div>
+    <p class="hint" id="hint" aria-live="polite"></p>
+  </section>
+</main>
+
+<div id="film" role="dialog" aria-label="Celebration" hidden>
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div id="capwrap" aria-live="polite"><p id="cap"></p><p id="sub"></p></div>
+  <div id="tell" hidden>
+    <div>Tell Prathamesh your answer</div>
+    <button id="tellBtn" type="button">Copy my answer</button>
+    <div id="tellNote" style="margin-top:6px;font-size:.85rem;color:var(--muted)"></div>
+  </div>
+  <div id="bar">
+    <button class="ctl" id="replay" type="button">Replay</button>
+    <div id="prog" aria-hidden="true"><i id="progfill"></i></div>
+    <span id="time">0:00 / 0:24</span>
+    <button class="ctl" id="mute" type="button" aria-pressed="false">Sound on</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var $ = function (s) { return document.querySelector(s); };
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var NR = getComputedStyle(document.documentElement).getPropertyValue("--night-rgb").trim() || "26, 7, 20";
+
+  /* ---------- heart path ---------- */
+  function heart(ctx, x, y, s) {
+    ctx.beginPath();
+    ctx.moveTo(x, y + s * 0.9);
+    ctx.bezierCurveTo(x - s * 1.3, y + s * 0.1, x - s * 0.7, y - s * 0.9, x, y - s * 0.35);
+    ctx.bezierCurveTo(x + s * 0.7, y - s * 0.9, x + s * 1.3, y + s * 0.1, x, y + s * 0.9);
+    ctx.closePath();
+  }
+
+  /* ---------- drifting hearts behind the page ---------- */
+  var bg = $("#bg"), bctx = bg.getContext("2d"), bw = 0, bh = 0, hearts = [], bgOn = true, bgLast = 0;
+  function sizeBg() {
+    var d = Math.min(window.devicePixelRatio || 1, 2);
+    bw = window.innerWidth; bh = window.innerHeight;
+    bg.width = bw * d; bg.height = bh * d;
+    bctx.setTransform(d, 0, 0, d, 0, 0);
+    var n = Math.round(Math.min(34, (bw * bh) / 30000));
+    hearts = [];
+    for (var i = 0; i < n; i++) {
+      hearts.push({ x: Math.random() * bw, y: Math.random() * bh, s: 6 + Math.random() * 15, v: 12 + Math.random() * 26, ph: Math.random() * 6.28, a: 0.08 + Math.random() * 0.2, c: Math.random() < 0.7 ? "255,92,138" : "255,211,222" });
+    }
+    drawBg(0);
+  }
+  function drawBg(dt) {
+    bctx.clearRect(0, 0, bw, bh);
+    for (var i = 0; i < hearts.length; i++) {
+      var h = hearts[i];
+      h.y -= h.v * dt; h.x += Math.sin(bgLast / 1800 + h.ph) * 0.25 * (dt * 60);
+      if (h.y < -30) { h.y = bh + 30; h.x = Math.random() * bw; }
+      bctx.fillStyle = "rgba(" + h.c + "," + h.a + ")";
+      heart(bctx, h.x, h.y, h.s); bctx.fill();
+    }
+  }
+  function bgFrame(ts) {
+    if (!bgOn) return;
+    var dt = Math.min(0.05, (ts - bgLast) / 1000 || 0.016); bgLast = ts;
+    drawBg(dt);
+    requestAnimationFrame(bgFrame);
+  }
+
+  /* ---------- sound ---------- */
+  var actx = null, master = null, muted = false;
+  function initAudio() {
+    if (!actx) {
+      try {
+        actx = new (window.AudioContext || window.webkitAudioContext)();
+        master = actx.createGain(); master.gain.value = 0.55; master.connect(actx.destination);
+      } catch (e) { actx = null; }
+    }
+    if (actx && actx.state === "suspended") { try { actx.resume(); } catch (e) {} }
+  }
+  function note(f, when, dur, vol, type) {
+    if (!actx || muted) return;
+    var t = actx.currentTime + when, o = actx.createOscillator(), g = actx.createGain();
+    o.type = type || "triangle"; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol || 0.16, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + 0.05);
+  }
+  var lastPop = 0;
+  function pop() {
+    if (!actx || muted) return;
+    var now = performance.now(); if (now - lastPop < 140) return; lastPop = now;
+    var t = actx.currentTime, len = Math.floor(0.2 * actx.sampleRate), b = actx.createBuffer(1, len, actx.sampleRate), d = b.getChannelData(0);
+    for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
+    var s = actx.createBufferSource(); s.buffer = b;
+    var f = actx.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 250 + Math.random() * 500;
+    var g = actx.createGain(); g.gain.value = 0.32;
+    s.connect(f); f.connect(g); g.connect(master); s.start(t);
+    note(1300 + Math.random() * 1600, 0.07, 0.18, 0.04, "sine");
+  }
+  function chimeOpen() { note(659.25, 0, 0.6, 0.12, "sine"); note(880, 0.14, 0.8, 0.1, "sine"); }
+  function fanfare() {
+    var seq = [523.25, 659.25, 783.99, 1046.5];
+    for (var i = 0; i < seq.length; i++) note(seq[i], i * 0.14, 0.5, 0.15);
+    [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach(function (f, i) { note(f, 0.62, 2.2, 0.07 - i * 0.006, "triangle"); });
+  }
+
+  /* ---------- opening -> question ---------- */
+  var sOpen = $("#sOpen"), sAsk = $("#sAsk"), openBtn = $("#openBtn"), yesBtn = $("#yesBtn"), noBtn = $("#noBtn"), hintEl = $("#hint");
+  var isOwner = false, dbp = null;
+  function getDb() {
+    if (!dbp) {
+      dbp = (window.claude && window.claude.use ? window.claude.use("db") : Promise.resolve(null)).catch(function () { return null; });
+    }
+    return dbp;
+  }
+  openBtn.addEventListener("click", function () {
+    initAudio(); chimeOpen();
+    sOpen.hidden = true; sAsk.hidden = false;
+    var kids = sAsk.children;
+    for (var i = 0; i < kids.length; i++) { kids[i].classList.add("pop"); kids[i].style.animationDelay = (i * 0.09) + "s"; }
+    yesBtn.focus({ preventScroll: true });
+    if (!isOwner) {
+      getDb().then(function (db) {
+        if (!db) return;
+        var ref = db.doc("proposal/opened");
+        return ref.get().then(function (s) { if (!s.exists) return ref.set({ openedAt: new Date().toISOString() }); });
+      }).catch(function () {});
+    }
+  });
+
+  /* ---------- the No button that cannot be pressed ---------- */
+  var tries = 0, flying = false, prev = null, lastDodge = 0, ptr = { x: -999, y: -999 };
+  var lines = ["", "Nice try.", "That one is shy.", "It keeps running away.", "Only one button works.", "Just press Yes, Shrushti.", "Still trying? That is cute.", "It will never let you catch it."];
+  function rectOverlap(a, b) { return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom); }
+  function pickSpot() {
+    var w = noBtn.offsetWidth, h = noBtn.offsetHeight;
+    var vw = document.documentElement.clientWidth, vh = window.innerHeight;
+    var mx = 14, mt = 76, mb = 14;
+    var yr = yesBtn.getBoundingClientRect();
+    var yes = { left: yr.left - 20, right: yr.right + 20, top: yr.top - 20, bottom: yr.bottom + 20 };
+    var best = null, bestD = -1;
+    for (var i = 0; i < 60; i++) {
+      var x = mx + Math.random() * Math.max(1, vw - w - 2 * mx);
+      var y = mt + Math.random() * Math.max(1, vh - h - mt - mb);
+      if (rectOverlap({ left: x, right: x + w, top: y, bottom: y + h }, yes)) continue;
+      var d = Math.hypot(x + w / 2 - ptr.x, y + h / 2 - ptr.y);
+      var pd = prev ? Math.hypot(x - prev.x, y - prev.y) : 999;
+      if (d > bestD && d > 20) { bestD = d; best = { x: x, y: y }; }
+      if (d >= 170 && pd >= 130) return { x: x, y: y };
+    }
+    return best || { x: mx, y: mt };
+  }
+  function moveNo() {
+    if (!flying) {
+      var r = noBtn.getBoundingClientRect();
+      noBtn.style.transition = "none";
+      noBtn.classList.add("fly");
+      noBtn.style.transform = "translate(" + r.left + "px," + r.top + "px)";
+      noBtn.getBoundingClientRect();
+      noBtn.style.transition = "";
+      flying = true;
+    }
+    prev = pickSpot();
+    noBtn.style.transform = "translate(" + prev.x + "px," + prev.y + "px)";
+  }
+  function dodge() {
+    var now = performance.now();
+    if (now - lastDodge < 160) return;
+    lastDodge = now; tries++;
+    hintEl.textContent = lines[Math.min(tries, lines.length - 1)] || "";
+    yesBtn.style.setProperty("--s", Math.min(1 + tries * 0.05, 1.45).toFixed(2));
+    moveNo();
+  }
+  noBtn.addEventListener("pointerdown", function (e) { e.preventDefault(); dodge(); });
+  noBtn.addEventListener("pointerenter", function (e) { ptr = { x: e.clientX, y: e.clientY }; dodge(); });
+  noBtn.addEventListener("touchstart", function (e) { e.preventDefault(); dodge(); }, { passive: false });
+  noBtn.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); dodge(); });
+  noBtn.addEventListener("keydown", function (e) { e.preventDefault(); dodge(); });
+  noBtn.addEventListener("focus", function () { dodge(); noBtn.blur(); });
+  document.addEventListener("pointermove", function (e) {
+    ptr = { x: e.clientX, y: e.clientY };
+    if (sAsk.hidden || !document.body.contains(noBtn) || !$("#film").hidden) return;
+    var r = noBtn.getBoundingClientRect();
+    var dx = Math.max(r.left - e.clientX, 0, e.clientX - r.right), dy = Math.max(r.top - e.clientY, 0, e.clientY - r.bottom);
+    if (Math.hypot(dx, dy) < 70) dodge();
+  });
+  window.addEventListener("resize", function () {
+    sizeBg();
+    if (!$("#film").hidden) sizeFx();
+    if (flying) moveNo();
+  });
+
+  /* ---------- recording her answer ---------- */
+  var saved = false, saveDone = false;
+  function recordAnswer() {
+    if (isOwner) { saveDone = true; saved = true; return; }
+    getDb().then(function (db) {
+      if (!db) { saveDone = true; return; }
+      var ref = db.doc("proposal/answer");
+      return ref.get().then(function (s) {
+        if (s.exists) return;
+        return ref.set({ answer: "yes", answeredAt: new Date().toISOString(), noTries: tries });
+      }).then(function () { saved = true; saveDone = true; });
+    }).catch(function () { saveDone = true; });
+  }
+
+  /* ---------- celebration film ---------- */
+  var film = $("#film"), fx = $("#fx"), fctx = fx.getContext("2d"), W = 0, H = 0;
+  var capEl = $("#cap"), subEl = $("#sub"), progFill = $("#progfill"), timeEl = $("#time"), replayBtn = $("#replay"), tellBox = $("#tell");
+  var T_END = 24;
+  var CAPS = [
+    { t: 0.6, text: "Shrushti said yes.", sub: "" },
+    { t: 3.2, text: "Congratulations!", sub: "You just made me the happiest person alive." },
+    { t: 8.5, text: "Two hearts, one story.", sub: "" },
+    { t: 13, text: "I love you, Shrushti.", sub: "Today, tomorrow, and every day after." },
+    { t: 18.5, text: "Thank you for saying yes.", sub: "Prathamesh" }
+  ];
+  var COLORS = [["#ff5c8a", "#ffd3de"], ["#ffc982", "#fff1d6"], ["#ff2e6e", "#ffffff"], ["#ffd3de", "#ffc982"], ["#ff7aa2", "#ffffff"]];
+  var CONF = ["#ff5c8a", "#ffd3de", "#ffc982", "#d8205f", "#ffffff", "#ff7aa2"];
+  var running = false, raf = 0, t0 = 0, last = 0, parts = [], rockets = [], conf = [], nextBurst = 0, burstN = 0, capIdx = -1, flash = 0, started = false, lastSec = -1, tellShown = false;
+
+  function sizeFx() {
+    var d = Math.min(window.devicePixelRatio || 1, 2);
+    W = film.clientWidth; H = film.clientHeight;
+    fx.width = W * d; fx.height = H * d;
+    fctx.setTransform(d, 0, 0, d, 0, 0);
+    fctx.fillStyle = "rgb(" + NR + ")"; fctx.fillRect(0, 0, W, H);
+  }
+  function clamp(v) { return Math.max(0, Math.min(1, v)); }
+  function easeOut(p) { return 1 - Math.pow(1 - p, 3); }
+
+  function launch(x) {
+    rockets.push({ x: x == null ? W * (0.14 + Math.random() * 0.72) : x, ty: H * (0.12 + Math.random() * 0.34), p: 0, dur: 0.7 + Math.random() * 0.3 });
+  }
+  function explode(x, y) {
+    var pal = COLORS[Math.floor(Math.random() * COLORS.length)], isHeart = (burstN++ % 3) === 2;
+    var n = reduce ? 48 : (isHeart ? 120 : 90), R = Math.min(W, H) * (isHeart ? 0.2 : 0.14 + Math.random() * 0.12);
+    var i, a, v, life;
+    for (i = 0; i < n; i++) {
+      if (isHeart) {
+        a = (i / n) * Math.PI * 2;
+        var hx = 16 * Math.pow(Math.sin(a), 3), hy = -(13 * Math.cos(a) - 5 * Math.cos(2 * a) - 2 * Math.cos(3 * a) - Math.cos(4 * a));
+        var sc = (R * 2.2) / 17;
+        parts.push({ x: x, y: y, vx: hx * sc, vy: hy * sc, life: 1.5 + Math.random() * 0.3, age: 0, col: pal[0], size: 2.2 });
+      } else {
+        a = Math.random() * Math.PI * 2; v = R * 2.2 * (0.35 + Math.random() * 0.65);
+        parts.push({ x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1.1 + Math.random() * 0.7, age: 0, col: pal[i % 2], size: 1.6 + Math.random() * 1.6 });
+      }
+    }
+    pop();
+  }
+  function spawnConf(dt, t) {
+    var rate = reduce ? 8 : (t < 20 ? 38 : 12), n = rate * dt + (Math.random() < (rate * dt) % 1 ? 1 : 0);
+    for (var i = 0; i < Math.floor(n); i++) {
+      conf.push({ x: Math.random() * W, y: -16, vy: 60 + Math.random() * 110, wob: Math.random() * 6.28, ws: 1.5 + Math.random() * 2.5, rot: Math.random() * 6.28, rs: (Math.random() - 0.5) * 6, w: 7 + Math.random() * 7, col: CONF[Math.floor(Math.random() * CONF.length)], heart: Math.random() < 0.3 });
+    }
+  }
+
+  function setCap(i) {
+    capIdx = i;
+    var c = CAPS[i];
+    capEl.textContent = c.text; subEl.textContent = c.sub;
+    capEl.classList.remove("cap-in"); subEl.classList.remove("cap-in");
+    void capEl.offsetWidth;
+    capEl.classList.add("cap-in"); subEl.classList.add("cap-in");
+  }
+
+  function frame(ts) {
+    if (!running) return;
+    var t = (ts - t0) / 1000, dt = Math.min(0.05, (ts - last) / 1000 || 0.016); last = ts;
+
+    fctx.globalCompositeOperation = "source-over";
+    fctx.fillStyle = "rgba(" + NR + "," + (t < 0.3 ? 1 : 0.27) + ")";
+    fctx.fillRect(0, 0, W, H);
+
+    /* central heart */
+    var cx = W / 2, cy = H * 0.38, base = Math.min(W, H) * 0.14;
+    var k = t < 2.2 ? 1.6 * easeOut(clamp(t / 1.6)) : 1.6 - 0.55 * clamp((t - 2.2) / 0.6);
+    var beat = reduce ? 1 : 1 + 0.06 * Math.max(0, Math.sin(t * 7)) ;
+    var s = base * k * beat;
+    if (s > 1) {
+      var gr = fctx.createRadialGradient(cx, cy, 0, cx, cy, s * 3);
+      gr.addColorStop(0, "rgba(255,92,138,0.38)"); gr.addColorStop(1, "rgba(255,92,138,0)");
+      fctx.fillStyle = gr; fctx.fillRect(cx - s * 3, cy - s * 3, s * 6, s * 6);
+      var hg = fctx.createLinearGradient(cx - s, cy - s, cx + s, cy + s);
+      hg.addColorStop(0, "#ff7aa2"); hg.addColorStop(1, "#e0245e");
+      fctx.fillStyle = hg; fctx.shadowColor = "rgba(255,70,120,0.9)"; fctx.shadowBlur = 36;
+      heart(fctx, cx, cy, s); fctx.fill();
+      fctx.shadowBlur = 0;
+    }
+
+    /* the first big moment */
+    if (!started && t >= 2.2) {
+      started = true; flash = 1;
+      launch(W * 0.2); launch(W * 0.5); launch(W * 0.8); launch(W * 0.35); launch(W * 0.65);
+      nextBurst = ts + 500;
+    }
+    if (started && ts >= nextBurst) {
+      launch();
+      nextBurst = ts + (t < 11 ? 420 : 750) * (0.6 + Math.random() * 0.8);
+    }
+    if (t >= 2.4) spawnConf(dt, t);
+
+    fctx.globalCompositeOperation = "lighter";
+    var i;
+    for (i = rockets.length - 1; i >= 0; i--) {
+      var r = rockets[i]; r.p += dt / r.dur;
+      var ry = H + (r.ty - H) * easeOut(clamp(r.p));
+      fctx.fillStyle = "rgba(255,230,200,0.95)"; fctx.beginPath(); fctx.arc(r.x, ry, 2.4, 0, 6.283); fctx.fill();
+      if (r.p >= 1) { explode(r.x, r.ty); rockets.splice(i, 1); }
+    }
+    for (i = parts.length - 1; i >= 0; i--) {
+      var p = parts[i]; p.age += dt;
+      if (p.age >= p.life) { parts.splice(i, 1); continue; }
+      var drag = Math.exp(-2.2 * dt);
+      p.vx *= drag; p.vy = p.vy * drag + 70 * dt;
+      p.x += p.vx * dt; p.y += p.vy * dt;
+      var al = 1 - p.age / p.life;
+      fctx.globalAlpha = al * (0.75 + 0.25 * Math.sin(p.age * 40 + i));
+      fctx.fillStyle = p.col; fctx.beginPath(); fctx.arc(p.x, p.y, p.size * (0.5 + al * 0.5), 0, 6.283); fctx.fill();
+    }
+    fctx.globalAlpha = 1;
+    fctx.globalCompositeOperation = "source-over";
+
+    for (i = conf.length - 1; i >= 0; i--) {
+      var c = conf[i]; c.y += c.vy * dt; c.wob += c.ws * dt; c.x += Math.sin(c.wob) * 40 * dt; c.rot += c.rs * dt;
+      if (c.y > H + 20) { conf.splice(i, 1); continue; }
+      fctx.save(); fctx.translate(c.x, c.y); fctx.rotate(c.rot); fctx.scale(1, Math.cos(c.wob * 1.6));
+      fctx.fillStyle = c.col;
+      if (c.heart) { heart(fctx, 0, 0, c.w * 0.5); fctx.fill(); } else { fctx.fillRect(-c.w / 2, -c.w / 4, c.w, c.w / 2); }
+      fctx.restore();
+    }
+
+    if (flash > 0.01) {
+      fctx.fillStyle = "rgba(255,240,244," + (flash * 0.55) + ")"; fctx.fillRect(0, 0, W, H);
+      flash *= Math.pow(0.02, dt);
+    }
+
+    /* captions, progress, fallback card */
+    var ci = -1;
+    for (i = 0; i < CAPS.length; i++) if (t >= CAPS[i].t) ci = i;
+    if (ci !== capIdx && ci >= 0) setCap(ci);
+    var shown = Math.min(t, T_END), sec = Math.floor(shown);
+    progFill.style.width = (shown / T_END * 100).toFixed(1) + "%";
+    if (sec !== lastSec) {
+      lastSec = sec; timeEl.textContent = "0:" + (sec < 10 ? "0" : "") + sec + " / 0:" + T_END;
+      if (t >= T_END) replayBtn.classList.add("hot");
+    }
+    if (!tellShown && t >= 3 && saveDone && !saved) { tellShown = true; tellBox.hidden = false; }
+
+    raf = requestAnimationFrame(frame);
+  }
+
+  function startFilm() {
+    cancelAnimationFrame(raf);
+    parts = []; rockets = []; conf = []; burstN = 0; capIdx = -1; flash = 0; started = false; lastSec = -1;
+    capEl.textContent = ""; subEl.textContent = "";
+    replayBtn.classList.remove("hot");
+    sizeFx();
+    running = true; t0 = performance.now(); last = t0; nextBurst = 0;
+    fanfare();
+    raf = requestAnimationFrame(frame);
+  }
+
+  var answered = false;
+  yesBtn.addEventListener("click", function () {
+    if (answered) return; answered = true;
+    initAudio();
+    bgOn = false;
+    sAsk.hidden = true;
+    film.hidden = false;
+    startFilm();
+    recordAnswer();
+    replayBtn.focus({ preventScroll: true });
+  });
+  replayBtn.addEventListener("click", function () { initAudio(); startFilm(); });
+  $("#mute").addEventListener("click", function (e) {
+    muted = !muted;
+    e.currentTarget.textContent = muted ? "Muted" : "Sound on";
+    e.currentTarget.setAttribute("aria-pressed", String(muted));
+  });
+  $("#tellBtn").addEventListener("click", function () {
+    var msg = "Yes! I love you too. Shrushti";
+    var note = $("#tellNote");
+    var done = function () { note.textContent = "Copied. Paste it in your chat with him."; };
+    var fail = function () { note.textContent = "Say it to him: " + msg; };
+    try { navigator.clipboard.writeText(msg).then(done, fail); } catch (e) { fail(); }
+  });
+
+  /* ---------- status strip for Prathamesh ---------- */
+  function fmt(iso) {
+    try { return new Date(iso).toLocaleString("en-IN", { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" }); } catch (e) { return ""; }
+  }
+  function startOwner() {
+    var box = $("#owner"), st = $("#ownerState"), reset = $("#ownerReset");
+    box.hidden = false;
+    var opened = null, ans = null;
+    function paint() {
+      if (ans) {
+        st.textContent = "SHE SAID YES (" + fmt(ans.answeredAt) + "). She tried to press No " + (ans.noTries || 0) + (ans.noTries === 1 ? " time." : " times.");
+        reset.hidden = false;
+      } else if (opened) {
+        st.textContent = "She opened it at " + fmt(opened.openedAt) + ". Waiting for her answer.";
+        reset.hidden = false;
+      } else {
+        st.textContent = "Waiting for her to open it. Your own taps are not recorded.";
+        reset.hidden = true;
+      }
+    }
+    getDb().then(function (db) {
+      if (!db) { st.textContent = "Preview only. Live answers need the page open in your signed-in claude.ai."; return; }
+      db.doc("proposal/opened").onSnapshot(function (s) { opened = s.exists ? s.data() : null; paint(); }, function () {});
+      db.doc("proposal/answer").onSnapshot(function (s) { ans = s.exists ? s.data() : null; paint(); }, function () {});
+      reset.addEventListener("click", function () {
+        Promise.all([db.doc("proposal/answer").delete(), db.doc("proposal/opened").delete()]).catch(function () {});
+      });
+    });
+  }
+
+  /* ---------- boot ---------- */
+  sizeBg();
+  if (!reduce) requestAnimationFrame(bgFrame);
+  if (window.claude && window.claude.use) {
+    window.claude.use("user").then(function (u) {
+      isOwner = !!(u && u.isOwner && u.isOwner());
+      if (isOwner) startOwner();
+    }).catch(function () {});
+  }
+})();
+</script>
+
+</body></html>
